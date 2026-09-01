@@ -1,4 +1,4 @@
-module github.com/denis1836/mirrorbot
+module mirrorbot
 
 go 1.27.0
 

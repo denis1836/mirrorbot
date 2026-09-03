@@ -2,7 +2,9 @@ package sync
 
 import (
 	"context"
+	"fmt"
 
+	"mirrorbot/internal/github"
 	"mirrorbot/internal/gitlab"
 )
 
@@ -16,9 +18,21 @@ func NewIssueProcessor(gl *gitlab.Client) *IssueProcessor {
 
 func (p *IssueProcessor) Process(ctx context.Context, rawPayload []byte) error {
 
-	//TODO: json issue parsing
-	//TODO: sending request to GitLab API
+	ghIssue, err := github.ParseIssuesEvent(rawPayload)
+	if err != nil {
+		return fmt.Errorf("issue processor failed to parse payload: %w", err)
+	}
 
+	createdIssue, err := p.gitlabClient.CreateIssue(ctx, gitlab.CreateIssueInput{
+		Title:       ghIssue.Title,
+		Description: ghIssue.Description,
+		Labels:      ghIssue.Labels,
+	})
+	if err != nil {
+		return fmt.Errorf("issue processor failed to create a gitlab issue: %w", err)
+	}
+
+	_ = createdIssue
 	return nil
 }
 

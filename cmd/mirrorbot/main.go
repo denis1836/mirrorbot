@@ -11,8 +11,6 @@ import (
 	"github.com/sethvargo/go-githubactions"
 )
 
-var c config.Config
-
 func main() {
 	action := githubactions.New()
 

@@ -22,7 +22,7 @@ func (e *Engine) Dispatch(ctx context.Context, eventName string, payload []byte)
 	case "issues":
 		processor = NewIssueProcessor(e.gitlabClient)
 	default:
-		return fmt.Errorf("unsupported event type: %w", eventName)
+		return fmt.Errorf("unsupported event type: %v", eventName)
 	}
 
 	return processor.Process(ctx, payload)

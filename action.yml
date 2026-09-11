@@ -1,0 +1,27 @@
+name: "mirrorbot"
+description: "Automated issue mirror from GitHub to GitLab"
+author: "denis1836"
+
+inputs:
+  gitlab_token:
+    description: "GitLab Personal Access Token with API scope"
+    required: true
+  gitlab_project_id:
+    description: "Target GitLab Project ID"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version-file: "${{ github.action_path }}/go.mod"
+        cache-dependency-path: "${{ github.action_path }}/go.sum"
+
+    - name: Run mirrorbot
+      shell: bash
+      run: go run ${{ github.action_path }}/cmd/mirrorbot
+      env:
+        INPUT_GITLAB_TOKEN: ${{ inputs.gitlab_token }}
+        INPUT_GITLAB_PROJECT_ID: ${{ inputs.gitlab_project_id }}

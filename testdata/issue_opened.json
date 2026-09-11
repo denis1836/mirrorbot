@@ -1,0 +1,17 @@
+{
+  "action": "opened",
+  "issue": {
+    "number": 42,
+    "title": "Test: Test issue",
+    "body": "This is a test issue generated locally to verify that mirrorbot correctly parses and forwards data to GitLab.\n\n- [x] GitHub event parsed\n- [ ] GitLab issue created",
+    "html_url": "https://github.com/example/mirrorbot/issues/42",
+    "labels": [
+      {
+        "name": "bug"
+      },
+      {
+        "name": "mirrorbot"
+      }
+    ]
+  }
+}

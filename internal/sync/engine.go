@@ -21,6 +21,8 @@ func (e *Engine) Dispatch(ctx context.Context, eventName string, payload []byte)
 	switch eventName {
 	case "issues":
 		processor = NewIssueProcessor(e.gitlabClient)
+	case "pull_request":
+		processor = NewPullRequestProcessor(e.gitlabClient)
 	default:
 		return fmt.Errorf("unsupported event type: %v", eventName)
 	}

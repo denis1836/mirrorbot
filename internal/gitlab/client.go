@@ -51,3 +51,28 @@ func (c *Client) CreateIssue(ctx context.Context, input CreateIssueInput) (*gitl
 
 	return issue, nil
 }
+
+type CreateMergeRequestInput struct {
+	Title        string
+	Description  string
+	SourceBranch string
+	TargetBranch string
+	Labels       []string
+}
+
+func (c *Client) CreateMergeRequest(ctx context.Context, input CreateMergeRequestInput) (*gitlab.MergeRequest, error) {
+	opts := &gitlab.CreateMergeRequestOptions{
+		Title:        gitlab.Ptr(input.Title),
+		Description:  gitlab.Ptr(input.Description),
+		SourceBranch: gitlab.Ptr(input.SourceBranch),
+		TargetBranch: gitlab.Ptr(input.TargetBranch),
+		Labels:       gitlab.Ptr(gitlab.LabelOptions(input.Labels)),
+	}
+
+	mr, _, err := c.sdk.MergeRequests.CreateMergeRequest(c.projectID, opts, gitlab.WithContext(ctx))
+	if err != nil {
+		return nil, fmt.Errorf("failed to create gitlab merge request: %w", err)
+	}
+
+	return mr, nil
+}
